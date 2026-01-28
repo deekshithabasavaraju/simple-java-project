@@ -10,19 +10,22 @@ pipeline {
             }
         }
 
+        stages {
+
         stage('Build Docker Image') {
             steps {
                 sh 'docker build -t devops-app .'
             }
         }
 
-        stage('Run Container') {
+stage('Run Container') {
             steps {
                 sh '''
                 docker rm -f devops-container || true
-                docker run -d -p 80:80 --name devops-container devops-app
+                docker run -d -p 8080:8080 --name devops-container devops-app
                 '''
             }
         }
     }
 }
+        
