@@ -3,14 +3,11 @@ pipeline {
 
     stages {
 
-        stage('Clone Repo') {
+        stage('Build App') {
             steps {
-                git branch: 'main',
-                    url: 'https://github.com/deekshithabasavaraju/simple-java-project.git'
+                sh 'mvn clean package'
             }
         }
-
-        stages {
 
         stage('Build Docker Image') {
             steps {
@@ -18,14 +15,13 @@ pipeline {
             }
         }
 
-stage('Run Container') {
+        stage('Run Container') {
             steps {
                 sh '''
-                docker rm -f devops-container || true
-                docker run -d -p 8080:8080 --name devops-container devops-app
+                    docker rm -f devops-container || true
+                    docker run -d -p 8080:8080 --name devops-container devops-app
                 '''
             }
         }
     }
 }
-        
